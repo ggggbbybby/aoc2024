@@ -73,41 +73,13 @@ end
 def findAntinodes(a, b)
   ax, ay = *a
   bx, by = *b
+  
+  dx = ax - bx
+  dy = ay - by
 
-  dx = (ax - bx).abs
-  dy = (ay - by).abs
-
-  # many possible directions for this line to go in
-  # I feel like this should be possible to do with a min(ax, bx) but I think I need to take slope into account? hmm.
-  if ax < bx 
-    if ay < by
-      return [[ax - dx, ay - dy], [bx + dx, by + dy]]
-    elsif ay == by
-      return [[ax - dx, ay], [bx + dx, by]]
-    else # ay > by
-      return [[ax - dx, ay + dy], [bx + dx, by - dy]]
-    end
-  end 
-
-  if ax == bx
-    if ay < by
-      return [[ax, ay - dy], [bx, by + dy]]
-    elsif ay == by # hmmm
-      raise "non-uniq antenna coords???"
-    else # ay > by
-      return [[ax, ay + dy], [bx, by - dy]]
-    end
-  end
-
-  if ax > bx
-    if ay < by
-      return [[ax + dx, ay - dy], [bx - dx, by + dy]]
-    elsif ay == by
-      return [[ax + dx, ay], [bx - dx, by]]
-    else # ay > by
-      [[ax + dx, ay + dy], [bx - dx, by - dy]]
-    end
-  end
+  # this feels like the dumbest possible solution but it works so uh
+  # don't ask me why it works. it's just math.
+  return [[ax + dx, ay + dy], [bx - dx, by - dy]]
 end
 
 def part1(input)
@@ -157,10 +129,21 @@ def part2(input)
   locations
 end
 
+antinode_testcases = [
+  [[1,1], [0,0]],
+  [[1,1], [0,1]],
+  [[1,1], [0,2]],
+  [[1,1], [1,0]],
+  [[1,1], [1,2]],
+  [[1,1], [2,0]],
+  [[1,1], [2,1]],
+  [[1,1], [2,2]],
+]
+
 puts "Part 1"
-p part1(one_pair_example)
-p part1(two_pair_example)
-p part1(example)
+#p part1(one_pair_example)
+#p part1(two_pair_example)
+#p part1(example)
 
 p part1(challenge).length
 
