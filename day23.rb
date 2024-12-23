@@ -78,8 +78,7 @@ def part1BK(input)
   graph = parse(input)
   cliques = bronKerboschCliques(Set.new, Set.new(graph.keys), Set.new, graph, [])
   
-  # this does not give the right answer for the input for some reason
-  cliques.flat_map { |c| c.to_a.combination(3).select { |c| c.any? {|v| v.start_with?('t') }} }.uniq.length
+  triangles = cliques.flat_map { |c| c.sort.combination(3).select { |c| c.any? {|v| v.start_with?('t') }} }.uniq.length
 end
 
 def bronKerboschCliques(r, p, x, graph, collect)
@@ -110,6 +109,7 @@ p part1BF(example)
 p part1BK(example)
 
 challenge = File.read("day23.txt")
+p part1BK(challenge)
 p part1BF(challenge)
 
 puts "Part 2"
